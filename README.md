@@ -1,50 +1,49 @@
-# TianDiTu Location Plugin
+# TianDiTu Location 插件
 
 [中文](README.zh.md) | [English](README.md)
 
-A Qt Location Service Provider Plugin that enables seamless integration of TianDiTu (天地图) and other map services into Qt applications.
+一个为Qt应用程序提供天地图服务集成的Qt Location服务提供商插件，可以将天地图地图服务集成到Qt应用中。
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 <img src="assets/example.png" width="600" height="400">
 
-## Features
+## 功能特性
 
-- 🗺️ **TianDiTu Integration** - Full support for TianDiTu online and offline mapping services
-- 💾 **Tile Caching** - SQLite-based tile caching for offline usage
-- 🔧 **Flexible Configuration** - JSON-based configuration for easy customization. Configure any map source through resources_url_config.json
+- 🗺️ **天地图集成** - 完整支持天地图在线和离线地图服务
+- 💾 **瓦片缓存** - 基于SQLite的瓦片缓存，支持离线使用
+- 🔧 **灵活配置** - 基于JSON的配置，易于自定义地图样式。通过配置resources_url_config.json可以配置任意地图源。
 
-## Requirements
-
+## 系统要求
 - Qt 6.5+
 - CMake 3.22+
-- C++17 compiler
+- C++17 编译器
 
-## Installation
+## 安装
 
-### From Source
+### 从源代码安装
 
-1. **Clone the repository to your project directory**
+1. **克隆仓库到项目源码目录**
    ```bash
    git clone https://github.com/xiethon/TiandituPlugin.git
    ```
 
-2. **CMake Configuration**
+2. **CMake配置**
    ```bash
    add_subdirectory(TiandituPlugin)
    target_link_libraries(${YOUR_PROJECT_NAME} PRIVATE TiandituPlugin)
    ```
 
-3. **Build Example**
+3. **构建示例程序**
    ```bash
    cmake -B build -DBUILD_EXAMPLE=ON
    cmake --build build -j $(nproc)
    ./build/example/location-example
    ```
 
-## Usage
+## 使用方法
 
-Using TianDiTu plugin in QML:
+在QML中使用天地图插件：
 
 ```qml
 Map {
@@ -52,21 +51,21 @@ Map {
         name: "Tianditu"
         PluginParameter {
             name: "Tianditu.token"
-            value: "Your TianDiTu API Key" 
+            value: "天地图密钥" 
         }
     }
     // ...
     Component.onCompleted: {
-        setActiveMap("Tianditu", MapType.SatelliteMapDay);  // Set to satellite imagery
+        setActiveMap("Tianditu", MapType.SatelliteMapDay);  // 设置为卫星影像图
     }
 }
 ```
 
-For more details, see the example code [Example.qml](example/Example.qml)
+详情参见示例代码 [Example.qml](example/Example.qml)
 
-### Configuring Other Map Sources
+### 配置其他瓦片资源地址教程
 
-Configure other map sources through **resources_url_config.json**. Example using Amap (高德地图):
+通过 **resources_url_config.json** 配置其他地图源,以高德为例：
 
 ```json
 {
@@ -74,7 +73,7 @@ Configure other map sources through **resources_url_config.json**. Example using
     "mapSources": [
         {
             "provider": "Amap",
-            "copyright": "&copy; <a href='https://lbs.amap.com/'>Amap</a> contributors",
+            "copyright": "&copy; <a href='https://lbs.amap.com/'>高德地图</a> contributors",
             "styles": [
                 {
                     "style": "StreetMap",
@@ -96,45 +95,27 @@ Configure other map sources through **resources_url_config.json**. Example using
         }
     ]
 }
+
 ```
+**参数说明：**
+* `provider`: 地图提供商名称，对应 `setActiveMap()` 的第一个参数
+* `style`: 地图样式，对应 `setActiveMap()` 的第二个参数
 
-**Parameters:**
-* `provider`: Map provider name, corresponds to the first parameter in `setActiveMap()`
-* `style`: Map style, corresponds to the second parameter in `setActiveMap()`
+**使用示例：**
 
-**Usage Example:**
+设置高德卫星影像地图：`setActiveMap("Amap", MapType.SatelliteMapDay)`
 
-Set Amap satellite imagery: `setActiveMap("Amap", MapType.SatelliteMapDay)`
+> **注意**：某些地图源需要 token 才能正常访问，详情请参考各地图提供商的服务政策。
 
-> **Note**: Some map sources require an API token for access. Please refer to each map provider's service policy.
+更多国内可用地图源配置请参见 [resources_url_config.json](assets/resources_url_config.json) 
 
-For more available map sources in China, see [resources_url_config.json](assets/resources_url_config.json)
 
-## License
+## 许可证
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+本项目采用MIT许可证 - 详见 [LICENSE.md](LICENSE.md) 文件
 
-## Support
 
-- 📧 Email: xiethon@163.com, xiethon2020@gmail.com
-- 🔗 Repository: https://github.com/xiethon/TiandituPlugin
+## 支持
 
-- Initial development: [Your Name]
-
-## Support
-
-For issues, questions, or suggestions:
-
-- 📧 Email: [your-email@example.com]
-- 🐛 Issues: [GitHub Issues](https://github.com/yourusername/LocationPlugin/issues)
-- 💬 Discussions: [GitHub Discussions](https://github.com/yourusername/LocationPlugin/discussions)
-
-## References
-
-- [Qt Location Module Documentation](https://doc.qt.io/qt-6/qtlocation-index.html)
-- [TianDiTu Maps](https://www.tianditu.gov.cn/)
-- [CMake Documentation](https://cmake.org/documentation/)
-
----
-
-Made with ❤️ for the Qt community
+- 📧 邮箱: xiethon@163.com, xiethon2020@gmail.com
+- 🔗 项目地址: https://github.com/xiethon/TiandituPlugin
