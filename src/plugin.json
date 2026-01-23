@@ -1,0 +1,11 @@
+{
+    "Keys": ["Tianditu-maps"],
+    "Provider": "Tianditu",
+    "Version": 100,
+    "Experimental": false,
+    "Features": [
+        "OnlineMappingFeature",
+        "OfflineMappingFeature"
+    ],
+    "Priority": 1000
+}

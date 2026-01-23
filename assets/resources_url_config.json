@@ -1,0 +1,89 @@
+{
+    "pluginName": "Tianditu",
+    "mapSources": [
+        {
+            "provider": "Tianditu",
+            "copyright":"&copy; <a href='http://www.tianditu.gov.cn/'>天地图</a> contributors",
+            "styles": [
+                {
+                    "style": "StreetMap",
+                    "url": "http://t{t}.tianditu.gov.cn/cia_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=cia&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk={token}"
+                },
+                {
+                    "style": "SatelliteMapDay",
+                    "url": "http://t{t}.tianditu.gov.cn/img_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=img&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk={token}"
+                },
+                {
+                    "style": "TerrainMap",
+                    "url": "http://t{t}.tianditu.gov.cn/ter_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=ter&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk={token}"
+                }
+            ]
+        },
+         {
+            "provider": "Bing",
+            "copyright":"&copy; <a href='https://www.microsoft.com/en-us/maps/product'>Microsoft</a> contributors",
+            "styles": [
+                {
+                    "style": "StreetMap",
+                    "url": "http://ecn.t{t}.tiles.virtualearth.net/tiles/r{quadkey}.jpeg?g={g}&mkt=zh-CN&shading=hill&n=z"
+                },
+                {
+                    "style": "SatelliteMapDay",
+                    "url": "http://ecn.t{t}.tiles.virtualearth.net/tiles/a{quadkey}.jpeg?g={g}&mkt=zh-CN&shading=hill&n=z"
+                },
+                {
+                    "style": "TerrainMap",
+                    "url": "http://ecn.t{t}.tiles.virtualearth.net/tiles/h{quadkey}.jpeg?g={g}&mkt=zh-CN&shading=hill&n=z"
+                },
+                {
+                    "style": "HybridMap",
+                    "url": "http://ecn.t{t}.tiles.virtualearth.net/tiles/h{quadkey}.jpeg?g={g}&mkt=zh-CN&shading=hill&n=z"
+                }
+            ]
+        },
+        {
+            "provider": "Esri",
+            "copyright":"&copy; <a href='https://www.arcgis.com/home/item.html?id=3b93337983e9436f8db950e38a8629af'>Esri</a> contributors",
+            "styles": [
+                {
+                    "style": "StreetMap",
+                    "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
+                },
+                {
+                    "style": "SatelliteMapDay",
+                    "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+                },
+                {
+                    "style": "TerrainMap",
+                    "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}"
+                },
+                {
+                    "style": "HybridMap",
+                    "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}?f=image"
+                }
+            ]
+        },
+        {
+            "provider": "Amap",
+            "copyright": "&copy; <a href='https://lbs.amap.com/'>高德地图</a> contributors",
+            "styles": [
+                {
+                    "style": "StreetMap",
+                    "url": "https://webst01.is.autonavi.com/appmaptile?style=8&x={x}&y={y}&z={z}"
+                },
+                {
+                    "style": "SatelliteMapDay",
+                    "url": "https://webst01.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}"
+                },
+                {
+                    "style": "TerrainMap",
+                    "url": "https://webrd04.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=7&x={x}&y={y}&z={z}"
+                },
+                {
+                    "style": "CustomMap",
+                    "url": "https://webst01.is.autonavi.com/appmaptile?style=8&x={x}&y={y}&z={z}"
+                }
+            ]
+        }
+    ]
+}
