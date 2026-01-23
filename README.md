@@ -1,6 +1,6 @@
 # Tianditu Location 插件
 
-[中文](README.zh.md) | [English](README.md)
+[中文](README.md) | [English](README.en.md)
 
 一个为Qt应用程序提供天地图服务集成的Qt Location服务提供商插件，可以将天地图地图服务集成到Qt应用中。
 
