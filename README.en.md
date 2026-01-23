@@ -1,4 +1,4 @@
-# TianDiTu Location Plugin
+# Tianditu Location Plugin
 
 [中文](README.md) | [English](README.en.md)
 

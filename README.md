@@ -1,4 +1,4 @@
-# TianDiTu Location 插件
+# Tianditu Location 插件
 
 [中文](README.zh.md) | [English](README.md)
 
