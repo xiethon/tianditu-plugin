@@ -2,7 +2,7 @@ project(
     TianDiTuPlugin-example
     VERSION 1.0.0
     LANGUAGES CXX
-    HOMEPAGE_URL "https://github.com/xiethon/TiandituPlugin"
+    HOMEPAGE_URL "https://github.com/xiethon/tianditu-plugin"
     DESCRIPTION "An example application for TianDiTu Qt Location Service Provider Plugin"
 )
 

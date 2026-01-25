@@ -26,7 +26,7 @@ A Qt Location Service Provider Plugin that enables seamless integration of TianD
 
 1. **Clone the repository to your project directory**
    ```bash
-   git clone https://github.com/xiethon/TiandituPlugin.git
+   git clone https://github.com/xiethon/tianditu-plugin.git
    ```
 
 2. **CMake Configuration**
@@ -117,4 +117,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 ## Support
 
 - 📧 Email: xiethon@163.com, xiethon2020@gmail.com
-- 🔗 Repository: https://github.com/xiethon/TiandituPlugin
+- 🔗 Repository: https://github.com/xiethon/tianditu-plugin

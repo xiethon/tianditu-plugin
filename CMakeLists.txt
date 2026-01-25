@@ -4,7 +4,7 @@ project(
     TianDiTuPlugin
     VERSION 1.0.0
     LANGUAGES CXX
-    HOMEPAGE_URL "https://github.com/xiethon/TiandituPlugin"
+    HOMEPAGE_URL "https://github.com/xiethon/tianditu-plugin"
     DESCRIPTION "A Qt Location Service Provider Plugin for TianDitu Maps"
 )
 
