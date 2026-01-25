@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.22.1)
 
 project(
-    TiandituPlugin
+    tianditu-plugin
     VERSION 1.0.0
     LANGUAGES CXX
     HOMEPAGE_URL "https://github.com/xiethon/tianditu-plugin"
