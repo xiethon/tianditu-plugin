@@ -3,7 +3,7 @@ set(CMAKE_AUTOMOC ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Core Positioning Sql Location LocationPrivate Network)
 
-qt_add_plugin(${CMAKE_PROJECT_NAME} 
+qt_add_plugin(tianditu-plugin
     STATIC
     CLASS_NAME GeoServiceProviderFactory
         geomapsource.cc
@@ -22,12 +22,12 @@ qt_add_plugin(${CMAKE_PROJECT_NAME}
         sqlitetilecache.h
 )
 
-qt_add_resources(${CMAKE_PROJECT_NAME}
+qt_add_resources(tianditu-plugin
     PREFIX "/"
     FILES resources_url_config.json
 )
 
-target_link_libraries(${CMAKE_PROJECT_NAME}
+target_link_libraries(tianditu-plugin
     PRIVATE
         Qt6::Positioning
         Qt6::Sql
@@ -38,4 +38,4 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
         Qt6::Network
 )
 
-target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(tianditu-plugin PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
