@@ -28,5 +28,5 @@ target_link_libraries(location-example
     PRIVATE Qt6::Positioning
     PRIVATE Qt6::Sql
 
-    PRIVATE TianDiTuPlugin
+    PRIVATE TiandituPlugin
 )
