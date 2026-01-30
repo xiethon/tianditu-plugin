@@ -21,7 +21,62 @@
 
 ## 安装
 
-### 从源代码安装
+### 方法1: 使用 CPM (推荐)
+
+[CPM.cmake](https://github.com/cpm-cmake/CPM.cmake) 是一个现代的CMake依赖管理工具。
+
+在你的项目中添加：
+
+```cmake
+# 下载CPM.cmake（如果还没有）
+include(cmake/CPM.cmake)
+
+# 添加 tianditu-plugin
+CPMAddPackage(
+    NAME tianditu-plugin
+    GITHUB_REPOSITORY xiethon/tianditu-plugin
+    GIT_TAG v1.0.0  # 或使用 main 分支
+    OPTIONS
+        "BUILD_EXAMPLE OFF"  # 不构建示例程序
+)
+
+# 链接到你的目标
+target_link_libraries(your_target PRIVATE TiandituPlugin::tianditu-plugin)
+```
+
+### 方法2: 使用 FetchContent (CMake内置)
+
+```cmake
+include(FetchContent)
+
+FetchContent_Declare(
+    tianditu-plugin
+    GIT_REPOSITORY https://github.com/xiethon/tianditu-plugin.git
+    GIT_TAG v1.0.0
+)
+
+set(BUILD_EXAMPLE OFF CACHE BOOL "" FORCE)  # 不构建示例
+FetchContent_MakeAvailable(tianditu-plugin)
+
+target_link_libraries(your_target PRIVATE TiandituPlugin::tianditu-plugin)
+```
+
+### 方法3: 使用 find_package (系统安装)
+
+1. **安装到系统**
+   ```bash
+   cmake -B build -DBUILD_EXAMPLE=OFF
+   cmake --build build
+   sudo cmake --install build
+   ```
+
+2. **在项目中使用**
+   ```cmake
+   find_package(TiandituPlugin 1.0 REQUIRED)
+   target_link_libraries(your_target PRIVATE TiandituPlugin::tianditu-plugin)
+   ```
+
+### 方法4: 作为子模块（传统方式）
 
 1. **克隆仓库到项目源码目录**
    ```bash
@@ -31,14 +86,15 @@
 2. **CMake配置**
    ```bash
    add_subdirectory(TiandituPlugin)
-   target_link_libraries(${YOUR_PROJECT_NAME} PRIVATE TiandituPlugin)
+   target_link_libraries(${YOUR_PROJECT_NAME} PRIVATE TiandituPlugin::tianditu-plugin)
    ```
 
-3. **构建示例程序**
-   ```bash
-   cmake -B build -DBUILD_EXAMPLE=ON
-   cmake --build build -j $(nproc)
-   ./build/example/location-example
+### 构建示例程序
+
+```bash
+cmake -B build -DBUILD_EXAMPLE=ON
+cmake --build build -j $(nproc)
+   ./build/example/tianditu-plugin-example
    ```
 
 ## 使用方法

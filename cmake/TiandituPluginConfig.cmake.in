@@ -1,0 +1,19 @@
+@PACKAGE_INIT@
+
+# 查找依赖的Qt6组件
+include(CMakeFindDependencyMacro)
+find_dependency(Qt6 COMPONENTS Core Location Network Positioning Sql REQUIRED)
+
+# 包含导出的目标
+include("${CMAKE_CURRENT_LIST_DIR}/TiandituPluginTargets.cmake")
+
+check_required_components(TiandituPlugin)
+
+# 提供变量供用户使用
+set(TIANDITU_PLUGIN_VERSION "@PROJECT_VERSION@")
+set(TIANDITU_PLUGIN_FOUND TRUE)
+
+# 创建便捷的库目标别名（如果还不存在）
+if(NOT TARGET TiandituPlugin::tianditu-plugin)
+    add_library(TiandituPlugin::tianditu-plugin ALIAS tianditu-plugin)
+endif()
