@@ -1,6 +1,6 @@
 {
     "pluginName": "Tianditu",
-    "mapSources": [
+    "providers": [
         {
             "provider": "Tianditu",
             "copyright":"&copy; <a href='http://www.tianditu.gov.cn/'>天地图</a> contributors",
@@ -85,5 +85,6 @@
                 }
             ]
         }
-    ]
+    ],
+    "geocode": "https://api.tianditu.gov.cn/geocoder?postStr={postStr},type=geocode&tk={token}"
 }

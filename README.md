@@ -10,7 +10,8 @@
 
 ## 功能特性
 
-- 🗺️ **天地图集成** - 完整支持天地图在线和离线地图服务
+- 🗺️ **天地图集成** - 支持天地图在线和离线地图服务
+- 📍 **逆地理编码** - 支持根据经纬度坐标查询地址信息
 - 💾 **瓦片缓存** - 基于SQLite的瓦片缓存，支持离线使用
 - 🔧 **灵活配置** - 基于JSON的配置，易于自定义地图样式。通过配置resources_url_config.json可以配置任意地图源。
 
@@ -35,7 +36,7 @@ include(cmake/CPM.cmake)
 CPMAddPackage(
     NAME tianditu-plugin
     GITHUB_REPOSITORY xiethon/tianditu-plugin
-    GIT_TAG v1.0.0  # 或使用 main 分支
+    GIT_TAG main  # 或指定tag
     OPTIONS
         "BUILD_EXAMPLE OFF"  # 不构建示例程序
 )
@@ -52,7 +53,7 @@ include(FetchContent)
 FetchContent_Declare(
     tianditu-plugin
     GIT_REPOSITORY https://github.com/xiethon/tianditu-plugin.git
-    GIT_TAG v1.0.0
+    GIT_TAG main
 )
 
 set(BUILD_EXAMPLE OFF CACHE BOOL "" FORCE)  # 不构建示例

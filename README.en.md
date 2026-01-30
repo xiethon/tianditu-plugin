@@ -11,6 +11,7 @@ A Qt Location Service Provider Plugin that enables seamless integration of TianD
 ## Features
 
 - 🗺️ **TianDiTu Integration** - Full support for TianDiTu online and offline mapping services
+- � **Reverse Geocoding** - Support for querying address information based on coordinates
 - 💾 **Tile Caching** - SQLite-based tile caching for offline usage
 - 🔧 **Flexible Configuration** - JSON-based configuration for easy customization. Configure any map source through resources_url_config.json
 
@@ -22,24 +23,80 @@ A Qt Location Service Provider Plugin that enables seamless integration of TianD
 
 ## Installation
 
-### From Source
+### Method 1: Using CPM (Recommended)
+
+[CPM.cmake](https://github.com/cpm-cmake/CPM.cmake) is a modern CMake dependency management tool.
+
+Add to your project:
+
+```cmake
+# Download CPM.cmake (if not already)
+include(cmake/CPM.cmake)
+
+# Add tianditu-plugin
+CPMAddPackage(
+    NAME tianditu-plugin
+    GITHUB_REPOSITORY xiethon/tianditu-plugin
+    GIT_TAG main  # or specify a tag
+    OPTIONS
+        "BUILD_EXAMPLE OFF"  # Don't build example
+)
+
+# Link to your target
+target_link_libraries(your_target PRIVATE TiandituPlugin::tianditu-plugin)
+```
+
+### Method 2: Using FetchContent (CMake built-in)
+
+```cmake
+include(FetchContent)
+
+FetchContent_Declare(
+    tianditu-plugin
+    GIT_REPOSITORY https://github.com/xiethon/tianditu-plugin.git
+    GIT_TAG main
+)
+
+set(BUILD_EXAMPLE OFF CACHE BOOL "" FORCE)  # Don't build example
+FetchContent_MakeAvailable(tianditu-plugin)
+
+target_link_libraries(your_target PRIVATE TiandituPlugin::tianditu-plugin)
+```
+
+### Method 3: Using find_package (System Installation)
+
+1. **Install to system**
+   ```bash
+   cmake -B build -DBUILD_EXAMPLE=OFF
+   cmake --build build
+   sudo cmake --install build
+   ```
+
+2. **Use in your project**
+   ```cmake
+   find_package(TiandituPlugin 1.0 REQUIRED)
+   target_link_libraries(your_target PRIVATE TiandituPlugin::tianditu-plugin)
+   ```
+
+### Method 4: As Submodule (Traditional)
 
 1. **Clone the repository to your project directory**
    ```bash
-   git clone https://github.com/xiethon/tianditu-plugin.git
+   git clone https://github.com/xiethon/TiandituPlugin.git
    ```
 
 2. **CMake Configuration**
    ```bash
    add_subdirectory(TiandituPlugin)
-   target_link_libraries(${YOUR_PROJECT_NAME} PRIVATE TiandituPlugin)
+   target_link_libraries(${YOUR_PROJECT_NAME} PRIVATE TiandituPlugin::tianditu-plugin)
    ```
 
-3. **Build Example**
-   ```bash
-   cmake -B build -DBUILD_EXAMPLE=ON
-   cmake --build build -j $(nproc)
-   ./build/example/location-example
+### Build Example
+
+```bash
+cmake -B build -DBUILD_EXAMPLE=ON
+cmake --build build -j $(nproc)
+   ./build/example/tianditu-plugin-example
    ```
 
 ## Usage
