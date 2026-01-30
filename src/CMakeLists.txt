@@ -10,6 +10,10 @@ qt_add_plugin(tianditu-plugin
         geomapsource.h
         geoserviceproviderfactory.cc
         geoserviceproviderfactory.h
+        geocodingmanagerengine.cc
+        geocodingmanagerengine.h
+        geocodereply.cc
+        geocodereply.h
         geotiledmap.cc
         geotiledmap.h
         geotiledmappingmanagerengine.cc
@@ -75,6 +79,7 @@ install(TARGETS ${_targets_to_install}
 install(FILES
     geomapsource.h
     geoserviceproviderfactory.h
+    geocodingmanagerengine.h
     geotiledmap.h
     geotiledmappingmanagerengine.h
     geotiledmapreply.h

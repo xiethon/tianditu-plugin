@@ -15,4 +15,9 @@ public:
         const QVariantMap& parameters,
         QGeoServiceProvider::Error* error,
         QString* error_string) const override;
+
+    QGeoCodingManagerEngine* createGeocodingManagerEngine(
+        const QVariantMap& parameters,
+        QGeoServiceProvider::Error* error,
+        QString* error_string) const override;
 };

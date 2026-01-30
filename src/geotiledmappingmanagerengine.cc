@@ -43,7 +43,7 @@ GeoTiledMappingManagerEngine::GeoTiledMappingManagerEngine(
     setTileSize(QSize(256, 256));
 
     //! 初始化地图源，如果失败则返回错误
-    if (!initializeMapSources(parameters, camera_caps)) {
+    if (!init(parameters, camera_caps)) {
         *error = QGeoServiceProvider::NotSupportedError;
         *error_string = Q_FUNC_INFO + QStringLiteral("initialize map sources error");
         return;
@@ -97,7 +97,7 @@ QGeoMap* GeoTiledMappingManagerEngine::createMap() {
     return map;
 }
 
-bool GeoTiledMappingManagerEngine::initializeMapSources(
+bool GeoTiledMappingManagerEngine::init(
     const QVariantMap& parameters, const QGeoCameraCapabilities& camera_caps) {
     //! 从资源文件中读取地图配置
     QFile maps_file(":/resources_url_config.json");
@@ -118,7 +118,7 @@ bool GeoTiledMappingManagerEngine::initializeMapSources(
     //! 提取配置信息
     QVariantMap resources_url_config_js = mapsDocument.object().toVariantMap();
     QByteArray plugin_name = resources_url_config_js["pluginName"].toString().toLatin1();
-    QVariantList map_sources = resources_url_config_js["mapSources"].toList();
+    QVariantList map_sources = resources_url_config_js["providers"].toList();
     //! 遍历所有地图源配置
     for (const QVariant& mapSource_element : map_sources) {
         QVariantMap map_source = mapSource_element.toMap();

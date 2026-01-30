@@ -20,8 +20,7 @@ public:
     GeoMapSource* mapSource(int map_id) const;
 
 private:
-    bool
-    initializeMapSources(const QVariantMap& parameters, const QGeoCameraCapabilities& camera_caps);
+    bool init(const QVariantMap& parameters, const QGeoCameraCapabilities& camera_caps);
     QList<GeoMapSource*> _map_sources;
 };
 
