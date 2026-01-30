@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Controls
 import QtLocation
 import QtPositioning
 
@@ -15,6 +16,32 @@ Window {
             name: "Tianditu.token"
             value: "d4359a63f985f33102eb7b257170dbc0" //! 请替换为您申请的天地图密钥，注册地址：http://lbs.tianditu.gov.cn
         }
+    }
+
+    //! 逆地理编码模型
+    GeocodeModel {
+        id: geocodeModel
+        plugin: taindituPlugin
+        autoUpdate: false
+        onLocationsChanged: {
+            if (count > 0) {
+                var location = get(0)
+                resultText.text = "地址: " + location.address.text
+            }
+        }
+        onStatusChanged: {
+            if (status === GeocodeModel.Error) {
+                resultText.text = "查询出错: " + errorString
+            } else if (status === GeocodeModel.Loading) {
+                resultText.text = "正在查询..."
+            }
+        }
+    }
+
+    //! 逆地理编码测试函数
+    function reverseGeocode(coordinate) {
+        geocodeModel.query = coordinate
+        geocodeModel.update()
     }
 
     Map {
@@ -60,6 +87,15 @@ Window {
             onTranslationChanged: (delta) => map.pan(-delta.x, -delta.y)
         }
 
+        //! 点击地图进行逆地理编码测试
+        TapHandler {
+            id: tapHandler
+            onTapped: (eventPoint, button) => {
+                var coord = map.toCoordinate(eventPoint.position)
+                reverseGeocode(coord)
+            }
+        }
+
         Component.onCompleted: {
            setActiveMap("Tianditu", MapType.SatelliteMapDay); //! 卫星影像图
            //setActiveMap("Tianditu", MapType.TerrainMap);      //! 地形晕渲
@@ -72,6 +108,38 @@ Window {
                     map.activeMapType = map.supportedMapTypes[i];
                     return;
                 }
+            }
+        }
+    }
+
+    //! 显示逆地理编码结果的面板
+    Rectangle {
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.margins: 10
+        width: 350
+        height: column.height + 20
+        color: "#E0FFFFFF"
+        radius: 8
+        border.color: "#CCCCCC"
+        border.width: 1
+        Column {
+            id: column
+            anchors.centerIn: parent
+            spacing: 10    
+            Text {
+                text: "点击地图任意位置进行逆地理编码测试"
+                font.pixelSize: 14
+                color: "#333333"
+            }
+            
+            Text {
+                id: resultText
+                text: "等待点击..."
+                font.pixelSize: 12
+                color: "#666666"
+                wrapMode: Text.Wrap
+                width: 330
             }
         }
     }
