@@ -47,31 +47,29 @@ target_include_directories(tianditu-plugin
 # 设置导出名称和别名
 add_library(TiandituPlugin::tianditu-plugin ALIAS tianditu-plugin)
 
-# 安装目标 - 只导出主目标，不导出Qt插件内部生成的辅助目标
-install(TARGETS tianditu-plugin
+# 获取Qt插件生成的所有依赖目标
+get_target_property(_plugin_deps tianditu-plugin INTERFACE_LINK_LIBRARIES)
+
+# 收集需要安装的所有目标
+set(_targets_to_install tianditu-plugin)
+foreach(_dep ${_plugin_deps})
+    if(TARGET ${_dep})
+        get_target_property(_dep_type ${_dep} TYPE)
+        # 只包含内部生成的库目标（排除Qt系统库）
+        if(_dep_type MATCHES "STATIC_LIBRARY|OBJECT_LIBRARY" AND _dep MATCHES "^tianditu-plugin")
+            list(APPEND _targets_to_install ${_dep})
+        endif()
+    endif()
+endforeach()
+
+# 安装所有相关目标
+install(TARGETS ${_targets_to_install}
     EXPORT TiandituPluginTargets
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/tianditu-plugin
 )
-
-# 导出Qt插件自动生成的内部目标（如果存在）
-if(TARGET tianditu-plugin_init)
-    install(TARGETS tianditu-plugin_init
-        EXPORT TiandituPluginTargets
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    )
-endif()
-
-if(TARGET tianditu-plugin_resources_1)
-    install(TARGETS tianditu-plugin_resources_1
-        EXPORT TiandituPluginTargets
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    )
-endif()
 
 # 安装头文件
 install(FILES

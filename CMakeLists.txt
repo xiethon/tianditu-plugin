@@ -8,14 +8,13 @@ project(
     DESCRIPTION "A Qt Location Service Provider Plugin for TianDitu Maps"
 )
 
-# 使用GNUInstallDirs提供标准安装路径
-include(GNUInstallDirs)
-include(CMakePackageConfigHelpers)
-
-option(BUILD_EXAMPLE "Build example" ON)
+option(BUILD_EXAMPLE "Build example" OFF)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+include(GNUInstallDirs)
+include(CMakePackageConfigHelpers)
 
 add_subdirectory(src)
 
