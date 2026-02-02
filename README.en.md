@@ -11,7 +11,8 @@ A Qt Location Service Provider Plugin that enables seamless integration of TianD
 ## Features
 
 - 🗺️ **TianDiTu Integration** - Full support for TianDiTu online and offline mapping services
-- � **Reverse Geocoding** - Support for querying address information based on coordinates
+- 📍 **Reverse Geocoding** - Support for querying address information based on coordinates
+- 🔍 **Place Search** - Support for searching location information by place name keywords
 - 💾 **Tile Caching** - SQLite-based tile caching for offline usage
 - 🔧 **Flexible Configuration** - JSON-based configuration for easy customization. Configure any map source through resources_url_config.json
 
