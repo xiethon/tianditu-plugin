@@ -41,15 +41,16 @@ void GeoCodeReply::networkReplyFinished() {
         return;
 
     QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
-
     if (document.isObject()) {
         QJsonObject object = document.object();
 
         switch (operationType()) {
-            case Geocode:
-                break;
+            case Geocode: {
+                setLocations(parseReply(object));
+                setFinished(true);
+            } break;
             case ReverseGeocode: {
-                setLocations({parseAddress(object)});
+                setLocations({parseReverseReply(object)});
                 setFinished(true);
             } break;
         }
@@ -60,37 +61,7 @@ void GeoCodeReply::networkReplyFinished() {
 }
 
 //! 解析地址对象
-/* 示例天地图反向地理编码结果JSON:{
-    "result": {
-        "formatted_address": "广东省江门市新会区大泽镇大井东北约101米",
-        "location": {
-            "lon": 112.944949,
-            "lat": 22.535651
-        },
-        "addressComponent": {
-            "address": "大井",
-            "town": "大泽镇",
-            "nation": "中国",
-            "city": "江门市",
-            "county_code": "156440705",
-            "poi_position": "东北",
-            "county": "新会区",
-            "city_code": "156440700",
-            "address_position": "东北",
-            "poi": "大井",
-            "province_code": "156440000",
-            "town_code": "156440705101",
-            "province": "广东省",
-            "road": "Y191",
-            "road_distance": 491,
-            "address_distance": 101,
-            "poi_distance": 101
-        }
-    },
-    "msg": "ok",
-    "status": "0"
-}*/
-QGeoLocation GeoCodeReply::parseAddress(const QJsonObject& object) {
+QGeoLocation GeoCodeReply::parseReverseReply(const QJsonObject& object) {
     int status = object.value(QStringLiteral("status")).toInt();
     if (status != 0) {
         setError(QGeoCodeReply::ParseError, object.value(QStringLiteral("msg")).toString());
@@ -107,9 +78,9 @@ QGeoLocation GeoCodeReply::parseAddress(const QJsonObject& object) {
     address.setState(addressObject.value(QStringLiteral("province")).toString());
     address.setCity(addressObject.value(QStringLiteral("city")).toString());
     address.setDistrict(addressObject.value(QStringLiteral("town")).toString());
-    address.setPostalCode(""); // 天地图反向地理编码结果中没有邮
+    address.setPostalCode(""); //! 天地图反向地理编码结果中没有邮
     address.setStreet(addressObject.value(QStringLiteral("address")).toString());
-    address.setStreetNumber(""); // 天地图反向地理编码结果中没有街道号码
+    address.setStreetNumber(""); //! 天地图反向地理编码结果中没有街道号码
 
     QGeoCoordinate coordinate;
     QJsonObject locationObject = resultObject.value(QStringLiteral("location")).toObject();
@@ -123,4 +94,33 @@ QGeoLocation GeoCodeReply::parseAddress(const QJsonObject& object) {
     location.setAddress(address);
 
     return location;
+}
+
+//! 解析地理编码结果
+QList<QGeoLocation> GeoCodeReply::parseReply(const QJsonObject& object) {
+    QList<QGeoLocation> locations;
+
+    QJsonArray poisArray = object.value(QStringLiteral("pois")).toArray();
+    for (const auto& poiValue : poisArray) {
+        if (!poiValue.isObject())
+            continue;
+        QJsonObject poiObject = poiValue.toObject();
+
+        QGeoAddress address;
+        address.setText(poiObject.value(QStringLiteral("address")).toString());
+        address.setStreet(poiObject.value(QStringLiteral("name")).toString());
+
+        QString lonlatStr = poiObject.value(QStringLiteral("lonlat")).toString();
+        QStringList lonlatList = lonlatStr.split(',');
+        if (lonlatList.size() != 2)
+            continue;
+        QGeoCoordinate coordinate;
+        coordinate.setLongitude(lonlatList[0].toDouble());
+        coordinate.setLatitude(lonlatList[1].toDouble());
+        QGeoLocation location;
+        location.setCoordinate(coordinate);
+        location.setAddress(address);
+        locations.append(location);
+    }
+    return locations;
 }

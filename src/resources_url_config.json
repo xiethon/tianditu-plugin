@@ -20,5 +20,6 @@
             ]
         }
     ],
-    "geocode": "https://api.tianditu.gov.cn/geocoder?postStr={postStr},type=geocode&tk={token}"
+    "geocode": "https://api.tianditu.gov.cn/v2/search?postStr={postStr}&type=query&tk={token}",
+    "reverseGeocode": "https://api.tianditu.gov.cn/geocoder?postStr={postStr},type=geocode&tk={token}"
 }

@@ -25,7 +25,8 @@ private Q_SLOTS:
     void networkReplyError(QNetworkReply::NetworkError error);
 
     //! 解析地址对象
-    QGeoLocation parseAddress(const QJsonObject& object);
+    QGeoLocation parseReverseReply(const QJsonObject& object);
+    QList<QGeoLocation> parseReply(const QJsonObject& object);
 
 private:
     OperationType _operation_type;
