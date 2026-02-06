@@ -10,7 +10,7 @@ Window {
     title: qsTr("Tianditu Map Example")
     
     Plugin {
-        id: taindituPlugin
+        id: tiandituPlugin
         name: "Tianditu"
         PluginParameter {
             name: "Tianditu.token"
@@ -41,7 +41,7 @@ Window {
     //! 地理编码模型（地名搜索）
     GeocodeModel {
         id: geocodeModel
-        plugin: taindituPlugin
+        plugin: tiandituPlugin
         autoUpdate: false
         limit: 5
         onLocationsChanged: {
