@@ -21,7 +21,7 @@ Window {
     //! 逆地理编码模型
     GeocodeModel {
         id: reverseGeocodeModel
-        plugin: taindituPlugin
+        plugin: tiandituPlugin
         autoUpdate: false
         onLocationsChanged: {
             if (count > 0) {
@@ -93,7 +93,7 @@ Window {
 
     Map {
         id:map
-        plugin: taindituPlugin
+        plugin: tiandituPlugin
         anchors.fill: parent
         center: QtPositioning.coordinate(39.908828,116.397501) //! 北京天安门
         zoomLevel: 12
@@ -104,24 +104,17 @@ Window {
         PinchHandler {
             id: pinch
             target: null
-            onActiveChanged: if (active) {
-                map.startCentroid = map.toCoordinate(pinch.centroid.position, false)
-            }
             onScaleChanged: (delta) => {
                 map.zoomLevel += Math.log2(delta)
-                map.alignCoordinateToPoint(map.startCentroid, pinch.centroid.position)
             }
             onRotationChanged: (delta) => {
                 map.bearing -= delta
-                map.alignCoordinateToPoint(map.startCentroid, pinch.centroid.position)
             }
             grabPermissions: PointerHandler.TakeOverForbidden
         }
         WheelHandler {
             id: wheel
-            // workaround for QTBUG-87646 / QTBUG-112394 / QTBUG-112432:
-            // Magic Mouse pretends to be a trackpad but doesn't work with PinchHandler
-            // and we don't yet distinguish mice and trackpads on Wayland either
+
             acceptedDevices: Qt.platform.pluginName === "cocoa" || Qt.platform.pluginName === "wayland"
                              ? PointerDevice.Mouse | PointerDevice.TouchPad
                              : PointerDevice.Mouse
