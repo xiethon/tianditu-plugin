@@ -18,7 +18,70 @@ Window {
         }
     }
 
-    //! 逆地理编码模型
+    Map {
+        id:map
+        plugin: tiandituPlugin
+        anchors.fill: parent
+        center: QtPositioning.coordinate(39.908828,116.397501) //! 北京天安门
+        zoomLevel: 12
+        maximumZoomLevel:18
+        layer.enabled: true
+        layer.samples: 8
+        copyrightsVisible: true
+        onCopyrightLinkActivated: Qt.openUrlExternally(link)
+        
+        PinchHandler {
+            id: pinch
+            target: null
+            onScaleChanged: (delta) => {
+                map.zoomLevel += Math.log2(delta)
+            }
+            onRotationChanged: (delta) => {
+                map.bearing -= delta
+            }
+            grabPermissions: PointerHandler.TakeOverForbidden
+        }
+        WheelHandler {
+            id: wheel
+
+            acceptedDevices: Qt.platform.pluginName === "cocoa" || Qt.platform.pluginName === "wayland"
+                             ? PointerDevice.Mouse | PointerDevice.TouchPad
+                             : PointerDevice.Mouse
+            rotationScale: 1/120
+            property: "zoomLevel"
+        }
+        DragHandler {
+            id: drag
+            target: null
+            onTranslationChanged: (delta) => map.pan(-delta.x, -delta.y)
+        }
+
+        //! 点击地图进行逆地理编码测试
+        TapHandler {
+            id: tapHandler
+            onTapped: (eventPoint, button) => {
+                var coord = map.toCoordinate(eventPoint.position)
+                reverseGeocode(coord)
+            }
+        }
+
+        Component.onCompleted: {
+           setActiveMap("Tianditu", MapType.SatelliteMapDay); //! 卫星影像图
+           //setActiveMap("Tianditu", MapType.TerrainMap);      //! 地形晕渲
+           //setActiveMap("Tianditu", MapType.StreetMap);       //! 矢量底图
+        }
+
+        function setActiveMap(name,style) {
+            for (var i = 0; i < map.supportedMapTypes.length; i++) {
+                if (name === map.supportedMapTypes[i].name && style === map.supportedMapTypes[i].style) {
+                    map.activeMapType = map.supportedMapTypes[i];
+                    return;
+                }
+            }
+        }
+    }
+
+        //! 逆地理编码模型
     GeocodeModel {
         id: reverseGeocodeModel
         plugin: tiandituPlugin
@@ -89,67 +152,6 @@ Window {
     function gotoLocation(lat, lon) {
         map.center = QtPositioning.coordinate(lat, lon)
         map.zoomLevel = 15
-    }
-
-    Map {
-        id:map
-        plugin: tiandituPlugin
-        anchors.fill: parent
-        center: QtPositioning.coordinate(39.908828,116.397501) //! 北京天安门
-        zoomLevel: 12
-        maximumZoomLevel:18
-        layer.enabled: true
-        layer.samples: 8
-
-        PinchHandler {
-            id: pinch
-            target: null
-            onScaleChanged: (delta) => {
-                map.zoomLevel += Math.log2(delta)
-            }
-            onRotationChanged: (delta) => {
-                map.bearing -= delta
-            }
-            grabPermissions: PointerHandler.TakeOverForbidden
-        }
-        WheelHandler {
-            id: wheel
-
-            acceptedDevices: Qt.platform.pluginName === "cocoa" || Qt.platform.pluginName === "wayland"
-                             ? PointerDevice.Mouse | PointerDevice.TouchPad
-                             : PointerDevice.Mouse
-            rotationScale: 1/120
-            property: "zoomLevel"
-        }
-        DragHandler {
-            id: drag
-            target: null
-            onTranslationChanged: (delta) => map.pan(-delta.x, -delta.y)
-        }
-
-        //! 点击地图进行逆地理编码测试
-        TapHandler {
-            id: tapHandler
-            onTapped: (eventPoint, button) => {
-                var coord = map.toCoordinate(eventPoint.position)
-                reverseGeocode(coord)
-            }
-        }
-
-        Component.onCompleted: {
-           setActiveMap("Tianditu", MapType.SatelliteMapDay); //! 卫星影像图
-           //setActiveMap("Tianditu", MapType.TerrainMap);      //! 地形晕渲
-           //setActiveMap("Tianditu", MapType.StreetMap);       //! 矢量底图
-        }
-
-        function setActiveMap(name,style) {
-            for (var i = 0; i < map.supportedMapTypes.length; i++) {
-                if (name === map.supportedMapTypes[i].name && style === map.supportedMapTypes[i].style) {
-                    map.activeMapType = map.supportedMapTypes[i];
-                    return;
-                }
-            }
-        }
     }
 
     //! 显示逆地理编码结果的面板
